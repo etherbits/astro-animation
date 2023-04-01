@@ -1,82 +1,83 @@
----
-import Layout from "../layouts/Layout.astro";
-import Card from "../components/Card.astro";
----
+<main class="bg-neutral-900">
+  <!-- <div class="group flex flex-col gap-16 w-fit">
+    <div
+      class="w-16 h-16 bg-red-500 rounded-full ease-[cubic-bezier(0,0,1,3)] group-hover:ml-16 transition-[500ms]"
+    >
+    </div>
+  </div> -->
+  <div class="relative h-[100vh] overflow-hidden">
+    <div
+      class="anim-target absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] w-96 h-96 bg-red-500 rounded-full flex flex-col justify-center items-center"
+    >
+      <img src="/public/svgs/gate.svg" class="w-40" />
+    </div>
+  </div>
+  <section class="p-16 flex flex-col gap-16 overflow-hidden">
+    <div class="w-32 h-32 bg-indigo-500 rounded-full c0"></div>
+    <div class="w-32 h-32 bg-indigo-500 rounded-full c1"></div>
+    <h1
+      id="name"
+      class="flex items-center w-[fit] text-indigo-500 font-bold text-[2rem] c2 flex-wrap"
+    >
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur
+      sapiente possimus eius quos perspiciatis voluptatem voluptate sit nulla
+      unde eligendi doloremque ratione illo deserunt alias minus, velit,
+      pariatur voluptates quaerat!
+    </h1>
+  </section>
+</main>
 
-<Layout title="Welcome to Astro.">
-  <main>
-    <h1>Welcome to <span class="text-gradient">Astro</span></h1>
-    <p class="instructions">
-      To get started, open the directory <code>src/pages</code> in your project.<br
-      />
-      <strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
-    </p>
-    <ul role="list" class="link-card-grid">
-      <Card
-        href="https://docs.astro.build/"
-        title="Documentation"
-        body="Learn how Astro works and explore the official API docs."
-      />
-      <Card
-        href="https://astro.build/integrations/"
-        title="Integrations"
-        body="Supercharge your project with new frameworks and libraries."
-      />
-      <Card
-        href="https://astro.build/themes/"
-        title="Themes"
-        body="Explore a galaxy of community-built starter themes."
-      />
-      <Card
-        href="https://astro.build/chat/"
-        title="Community"
-        body="Come say hi to our amazing Discord community. ❤️"
-      />
-    </ul>
-  </main>
-</Layout>
+<script>
+  import anime from "animejs/lib/anime.es";
 
-<style>
-  main {
-    margin: auto;
-    padding: 1.5rem;
-    max-width: 60ch;
+  const maxSize = Math.sqrt(
+    window.innerWidth * window.innerWidth +
+      window.innerHeight * window.innerHeight
+  );
+
+  anime({
+    targets: ".anim-target",
+    width: maxSize,
+    height: maxSize,
+    easing: "linear",
+    duration: 1000,
+  });
+
+  anime({
+    targets: ".c0",
+    marginLeft: "100%",
+    translateX: "-100%",
+    loop: true,
+    direction: "alternate",
+    easing: "easeInOutSine",
+    duration: 1000,
+  });
+
+  anime({
+    targets: ".c1",
+    marginLeft: "100%",
+    translateX: "-100%",
+    loop: true,
+    direction: "alternate",
+    easing: "spring(1, 80, 10, 0)",
+    duration: 1000,
+  });
+  const nameEl = document.getElementById("name") as HTMLHeadingElement;
+
+  if (nameEl) {
+    const name = nameEl.innerText;
+    nameEl.innerText = "";
+    name.split("").forEach((letter) => {
+      const span = document.createElement("span");
+      span.innerText = letter;
+      span.className = "whitespace-pre opacity-0 letter";
+      nameEl.appendChild(span);
+    });
   }
-  h1 {
-    font-size: 3rem;
-    font-weight: 800;
-    margin: 0;
-  }
-  .text-gradient {
-    background-image: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 400%;
-    background-position: 0%;
-  }
-  .instructions {
-    line-height: 1.6;
-    margin: 1rem 0;
-    border: 1px solid rgba(var(--accent), 25%);
-    background-color: white;
-    padding: 1rem;
-    border-radius: 0.4rem;
-  }
-  .instructions code {
-    font-size: 0.875em;
-    font-weight: bold;
-    background: rgba(var(--accent), 12%);
-    color: rgb(var(--accent));
-    border-radius: 4px;
-    padding: 0.3em 0.45em;
-  }
-  .instructions strong {
-    color: rgb(var(--accent));
-  }
-  .link-card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-    gap: 1rem;
-    padding: 0;
-  }
-</style>
+
+  anime({
+    targets: ".letter",
+    opacity: 1,
+    delay: anime.stagger(25),
+  });
+</script>
